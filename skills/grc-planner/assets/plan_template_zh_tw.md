@@ -29,6 +29,12 @@
 |---|---|
 |  |  |
 
+### Python block 程式碼（若本 phase 修改 Python block）
+#### Block: {block_name} ({block_id})
+```python
+{完整可複製貼上的替換程式碼}
+```
+
 ### 連線調整
 - 移除：
 - 新增：
