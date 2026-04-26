@@ -39,9 +39,10 @@ Provide a reusable lookup workflow for GNU Radio GRC block field data.
 6. Use `--refresh` when you need to rebuild data from upstream sources instead of local cache.
 7. For cross-project reuse, DB root is fixed to `~/Documents/grc-block-query/db` and is auto-initialized on first query.
 8. Set `GRC_RADIOCONDA_PATH` only when your radioconda installation is non-default.
+9. For bootstrap or cross-project setup details, read [README](./references/README.md) or [cross-project plan](./references/CROSS_PROJECT_PLAN.md) only when needed.
 
 ## Examples
-- `python ./skills/grc-block-query/scripts/query_grc_blocks.py --block "Constellation Object"`
-- `python ./skills/grc-block-query/scripts/query_grc_blocks.py --block "Constellation Object" --field "Constellation Type"`
-- `python ./skills/grc-block-query/scripts/query_grc_blocks.py --block "USRP Source" --field "samp_rate" --no-update-db`
-- `python ./skills/grc-block-query/scripts/query_grc_blocks.py --block "Constellation Object" --refresh`
+- From this skill root: `python ./scripts/query_grc_blocks.py --block "Constellation Object"`
+- From this skill root: `python ./scripts/query_grc_blocks.py --block "Constellation Object" --field "Constellation Type"`
+- From this skill root: `python ./scripts/query_grc_blocks.py --block "USRP Source" --field "samp_rate" --no-update-db`
+- From this skill root: `python ./scripts/query_grc_blocks.py --block "Constellation Object" --refresh`

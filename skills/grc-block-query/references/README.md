@@ -16,6 +16,9 @@ This repository contains a reusable workflow for querying GNU Radio GRC block fi
 5. ettus
 
 ## Quick start
+
+Run these commands from the repository root:
+
 1. Query a block:
    - `python ./skills/grc-block-query/scripts/query_grc_blocks.py --block "Constellation Object"`
 2. Query a specific field:
@@ -25,8 +28,15 @@ This repository contains a reusable workflow for querying GNU Radio GRC block fi
 4. Rebuild from upstream sources (skip local cache):
    - `python ./skills/grc-block-query/scripts/query_grc_blocks.py --block "Constellation Object" --refresh`
 
+From the skill root (`skills/grc-block-query`), use the shorter script paths:
+
+- `python ./scripts/query_grc_blocks.py --block "Constellation Object"`
+- `python ./scripts/query_grc_blocks.py --block "Constellation Object" --field "Constellation Type"`
+- `python ./scripts/validate_grc_field_format.py`
+- `python ./scripts/query_grc_blocks.py --block "Constellation Object" --refresh`
+
 ## Cross-project reuse
-- See `CROSS_PROJECT_PLAN.md` for shared skill + shared database architecture.
+- See `./CROSS_PROJECT_PLAN.md` for shared skill + shared database architecture.
 - Codex skill home:
    - `C:/Users/<username>/.codex/skills/grc-block-query`
 - Optional targets:
@@ -37,7 +47,9 @@ This repository contains a reusable workflow for querying GNU Radio GRC block fi
    - `C:/Users/<username>/Documents/grc-block-query/db`
 - Supported env vars:
    - `GRC_RADIOCONDA_PATH`
-- One-command bootstrap:
+- One-command bootstrap from the repository root:
+   - `powershell -ExecutionPolicy Bypass -File ./skills/grc-block-query/scripts/bootstrap_shared_grc_skill.ps1`
+- Multi-agent bootstrap from the repository root:
+   - `powershell -ExecutionPolicy Bypass -File ./skills/grc-block-query/scripts/bootstrap_shared_grc_skill.ps1 -Targets codex,copilot,claude-code`
+- From the skill root (`skills/grc-block-query`):
    - `powershell -ExecutionPolicy Bypass -File ./scripts/bootstrap_shared_grc_skill.ps1`
-- Multi-agent bootstrap:
-   - `powershell -ExecutionPolicy Bypass -File ./scripts/bootstrap_shared_grc_skill.ps1 -Targets codex,copilot,claude-code`

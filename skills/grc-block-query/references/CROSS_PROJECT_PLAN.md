@@ -49,22 +49,28 @@ Persistent user-level example:
 setx GRC_RADIOCONDA_PATH "$env:USERPROFILE/radioconda/Library/share/gnuradio"
 ```
 
-Bootstrap script (recommended for repeat setup):
+Bootstrap script from the repository root (recommended for repeat setup):
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File ./scripts/bootstrap_shared_grc_skill.ps1
+powershell -ExecutionPolicy Bypass -File ./skills/grc-block-query/scripts/bootstrap_shared_grc_skill.ps1
 ```
 
 Install to multiple agent targets:
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File ./scripts/bootstrap_shared_grc_skill.ps1 -Targets codex,copilot,claude-code
+powershell -ExecutionPolicy Bypass -File ./skills/grc-block-query/scripts/bootstrap_shared_grc_skill.ps1 -Targets codex,copilot,claude-code
 ```
 
 Persist a non-default radioconda path:
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File ./scripts/bootstrap_shared_grc_skill.ps1 -RadiocondaPath "$env:USERPROFILE/radioconda/Library/share/gnuradio" -PersistEnv
+powershell -ExecutionPolicy Bypass -File ./skills/grc-block-query/scripts/bootstrap_shared_grc_skill.ps1 -RadiocondaPath "$env:USERPROFILE/radioconda/Library/share/gnuradio" -PersistEnv
+```
+
+From the skill root (`skills/grc-block-query`), use:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File ./scripts/bootstrap_shared_grc_skill.ps1
 ```
 
 ## Why this works
@@ -96,12 +102,16 @@ Only enforce field format validation. Avoid policy-heavy hooks for portability.
 
 ## Operations
 
-- Refresh from sources:
+- From the repository root, refresh from sources:
   - `python ./skills/grc-block-query/scripts/query_grc_blocks.py --block "FEC Extended Encoder" --refresh`
-- Query specific GUI parameter:
+- From the repository root, query a specific GUI parameter:
   - `python ./skills/grc-block-query/scripts/query_grc_blocks.py --block "FEC Extended Encoder" --field "Threading Type"`
-- Validate DB format:
+- From the repository root, validate DB format:
   - `python ./skills/grc-block-query/scripts/validate_grc_field_format.py`
+- From the skill root (`skills/grc-block-query`), use:
+  - `python ./scripts/query_grc_blocks.py --block "FEC Extended Encoder" --refresh`
+  - `python ./scripts/query_grc_blocks.py --block "FEC Extended Encoder" --field "Threading Type"`
+  - `python ./scripts/validate_grc_field_format.py`
 
 ## Governance
 

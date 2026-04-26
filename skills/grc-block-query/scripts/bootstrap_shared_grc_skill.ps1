@@ -40,7 +40,7 @@ function Get-SkillTargetPath {
 }
 
 if (-not $RepositoryRoot) {
-    $RepositoryRoot = [System.IO.Path]::GetFullPath((Join-Path $PSScriptRoot ".."))
+    $RepositoryRoot = [System.IO.Path]::GetFullPath((Join-Path $PSScriptRoot "../../.."))
 }
 
 if (-not $SkillSource) {
