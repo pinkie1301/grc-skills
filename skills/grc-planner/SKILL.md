@@ -1,6 +1,6 @@
 ---
 name: grc-planner
-description: "Normalize GNU Radio .grc modification requests into an executable Traditional Chinese implementation plan. Use when work involves editing flowgraphs, reconnecting blocks, adding or replacing blocks, tuning parameters, handling Embedded Python Block changes, or comparing current vs target topology."
+description: "Normalize GNU Radio .grc modification requests into an executable Traditional Chinese implementation plan with an interactive readiness gate before writing files. Use when work involves editing flowgraphs, reconnecting blocks, adding or replacing blocks, tuning parameters, handling Embedded Python Block changes, or comparing current vs target topology."
 ---
 
 # GRC Planner
@@ -10,17 +10,20 @@ Convert GNU Radio `.grc` change requests into a structured, execution-ready impl
 
 ## Scope
 - Accept a `.grc` file and requested architecture changes.
-- Produce one plan file in Markdown.
+- First run an interactive readiness check.
+- Produce one Markdown plan file only after all planning blockers are resolved, or after the user explicitly asks for a draft with TODOs.
 - Split work into explicit phases.
 - Cover block changes, parameter changes, and connection rewiring.
 - Include dedicated handling for Python code changes in `Python Block` or `Embedded Python Block`.
 - Require parameter verification for every added or modified block.
 
 ## Output Requirements
-- Generate exactly one plan file named `plan_{title_name}.md`.
+- Determine `READY_TO_WRITE` before creating or writing any plan file.
+- Generate exactly one plan file named `plan_{title_name}.md` only when `READY_TO_WRITE` is true.
 - Write the plan body in Traditional Chinese.
 - Keep all implementation details actionable and ordered by phase.
 - Include touched blocks, parameter updates, and connection rewiring details.
+- If `READY_TO_WRITE` is false, respond only with a concise blocker summary and at most 3 clarification questions. Do not include a partial plan, template body, phase table, or Markdown plan file.
 - Do not write the final plan file until interaction blockers are resolved, unless the user explicitly asks for a draft with TODOs.
 
 ## Template Policy
@@ -46,9 +49,11 @@ Example:
 - Risk boundaries and known deployment constraints.
 
 ## Interactive Planning Policy
+- Treat the readiness gate as a hard stop, not a suggestion.
 - Use an interactive planning loop when missing or ambiguous information could change topology, block selection, verified parameters, connection rewiring, Python block behavior, phase ordering, or deployment risk.
 - Ask concise clarification questions before writing `plan_{title_name}.md` when required inputs are missing.
 - Ask at most 3 questions at a time.
+- After asking clarification questions, stop the current response. Do not continue into plan generation in the same response.
 - Prefer concrete implementation questions over broad discussion.
 - State safe assumptions and continue when the assumption does not change architecture, runtime behavior, or risk boundaries.
 - If the user asks for a draft despite unresolved questions, continue with explicit `TODO` markers for each unresolved decision.
@@ -58,11 +63,19 @@ Example:
 ## Workflow
 
 ### Step 0: Interactive clarification gate
-1. Check whether all required inputs are present.
-2. Identify decisions that block accurate planning.
-3. Ask only the questions needed to unblock the next planning step.
-4. Continue without asking when missing details can be safely represented as explicit TODOs and the user has requested a draft.
-5. Repeat this gate after baseline mapping and parameter verification if new blockers appear.
+1. Before writing any file or plan body, decide whether the plan is `READY_TO_WRITE`.
+2. Set `READY_TO_WRITE=true` only when all of these are satisfied:
+   - Current `.grc` file or equivalent flowgraph artifact is available.
+   - Target behavior is concrete enough to determine topology.
+   - Touched blocks can be identified.
+   - Ambiguous block choices are resolved.
+   - Phase ordering risk is resolved, explicitly specified, or safely irrelevant.
+   - Required block parameters can be verified, or unresolved parameters are allowed because the user explicitly requested a draft with TODOs.
+3. Set `READY_TO_WRITE=false` when any missing or ambiguous detail could change architecture, runtime behavior, verified parameters, connection facts, phase ordering, or deployment risk.
+4. If `READY_TO_WRITE=false`, stop and ask only the questions needed to unblock the next planning step.
+5. Ask at most 3 questions and do not generate a plan body, template body, or output file in that response.
+6. Continue without asking only when missing details can be safely represented as explicit TODOs and the user has requested a draft.
+7. Repeat this gate after baseline mapping and parameter verification if new blockers appear.
 
 ### Step 1: Collect context
 1. Read the target `.grc` and the user request.
@@ -120,10 +133,12 @@ If `Python Block` or `Embedded Python Block` is touched, include:
 6. Explicit TODO markers for unresolved unknowns.
 
 ### Step 6: Assemble final plan
-1. Write `plan_{title_name}.md`.
-2. Keep each phase directly executable.
-3. Ensure every touched block has parameter and connection evidence.
-4. Ensure unresolved items are explicit TODOs (no guessed values).
+1. Re-run Step 0 and confirm `READY_TO_WRITE=true`.
+2. If `READY_TO_WRITE=false`, return to Step 0 and stop after asking clarification questions.
+3. Write `plan_{title_name}.md`.
+4. Keep each phase directly executable.
+5. Ensure every touched block has parameter and connection evidence.
+6. Ensure unresolved items are explicit TODOs (no guessed values).
 
 ## Quality Checklist
 - Every touched block is listed.
