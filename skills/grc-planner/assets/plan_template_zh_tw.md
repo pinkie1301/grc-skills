@@ -35,10 +35,15 @@
 
 #### 程式碼差異
 {說明此區塊修改目的}
-```diff
-@@ L{old_start},L{old_count} -> L{new_start},L{new_count} @@
--{修改前程式碼}
-+{修改後程式碼}
+
+修改前（L{old_start}-L{old_end}）：
+```python
+{修改前程式碼}
+```
+
+修改後（L{new_start}-L{new_end}，可直接複製）：
+```python
+{修改後程式碼}
 ```
 
 ### 連線調整
@@ -66,15 +71,14 @@
 | L{start}-L{end} | L{start}-L{end} | {說明此區塊修改目的} |
 
 #### 程式碼差異
-```diff
-@@ L{old_start},L{old_count} -> L{new_start},L{new_count} @@
--{修改前程式碼}
-+{修改後程式碼}
+修改前（L{old_start}-L{old_end}）：
+```python
+{修改前程式碼}
 ```
 
-#### 完整替換程式碼
+修改後（L{new_start}-L{new_end}，可直接複製）：
 ```python
-{完整可複製貼上的替換程式碼}
+{修改後程式碼}
 ```
 
 ### 連線調整
@@ -102,15 +106,14 @@
 | L{start}-L{end} | L{start}-L{end} | {說明此區塊修改目的} |
 
 #### 程式碼差異
-```diff
-@@ L{old_start},L{old_count} -> L{new_start},L{new_count} @@
--{修改前程式碼}
-+{修改後程式碼}
+修改前（L{old_start}-L{old_end}）：
+```python
+{修改前程式碼}
 ```
 
-#### 完整替換程式碼
+修改後（L{new_start}-L{new_end}，可直接複製）：
 ```python
-{完整可複製貼上的替換程式碼}
+{修改後程式碼}
 ```
 
 ### 連線調整

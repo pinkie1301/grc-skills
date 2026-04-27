@@ -21,6 +21,7 @@ Convert GNU Radio `.grc` change requests into a structured, execution-ready impl
 - Write the plan body in Traditional Chinese.
 - Keep all implementation details actionable and ordered by phase.
 - Include touched blocks, parameter updates, and connection rewiring details.
+- Do not write the final plan file until interaction blockers are resolved, unless the user explicitly asks for a draft with TODOs.
 
 ## Template Policy
 - Use [plan template](./assets/plan_template_zh_tw.md) as the primary output structure.
@@ -44,7 +45,24 @@ Example:
 - Any phase preference (for example TX-first, RX-first, or cutover sequence).
 - Risk boundaries and known deployment constraints.
 
+## Interactive Planning Policy
+- Use an interactive planning loop when missing or ambiguous information could change topology, block selection, verified parameters, connection rewiring, Python block behavior, phase ordering, or deployment risk.
+- Ask concise clarification questions before writing `plan_{title_name}.md` when required inputs are missing.
+- Ask at most 3 questions at a time.
+- Prefer concrete implementation questions over broad discussion.
+- State safe assumptions and continue when the assumption does not change architecture, runtime behavior, or risk boundaries.
+- If the user asks for a draft despite unresolved questions, continue with explicit `TODO` markers for each unresolved decision.
+- Do not use unresolved assumptions as verified block parameters or connection facts.
+- After each user answer, update the working plan state and continue from the first still-blocked workflow step.
+
 ## Workflow
+
+### Step 0: Interactive clarification gate
+1. Check whether all required inputs are present.
+2. Identify decisions that block accurate planning.
+3. Ask only the questions needed to unblock the next planning step.
+4. Continue without asking when missing details can be safely represented as explicit TODOs and the user has requested a draft.
+5. Repeat this gate after baseline mapping and parameter verification if new blockers appear.
 
 ### Step 1: Collect context
 1. Read the target `.grc` and the user request.
@@ -55,6 +73,7 @@ Example:
 1. Extract current blocks (`name`, `id`) and current connections.
 2. Identify current TX/RX/header/payload/tag boundaries when relevant.
 3. Mark the gaps between current and desired topology.
+4. If the target topology cannot be determined from the request, ask follow-up questions before designing phases.
 
 ### Step 3: Verify block parameters (mandatory)
 For every added or modified block:
@@ -62,6 +81,7 @@ For every added or modified block:
 2. Never infer fields from memory.
 3. Prefer canonical GRC GUI parameter definitions from block YAML.
 4. If lookup returns `not_found`, keep unresolved fields as explicit TODO items.
+5. If multiple plausible GRC blocks match the requested behavior, ask the user to choose before planning rewiring.
 
 When using `grc-block-query`, verify these JSON fields:
 - `status`
@@ -88,12 +108,13 @@ Shared DB notes:
 - parameter updates (with verified sources)
 - connection rewiring
 - acceptance criteria
+3. If phase order affects risk or deployment continuity and no preference is provided, ask before finalizing the plan.
 
 ### Step 5: Handle Python block changes explicitly
 If `Python Block` or `Embedded Python Block` is touched, include:
 1. Block identity (`name` and `id`).
 2. Current code location (`.grc` embedded section or external file).
-3. A line-level diff snippet in a `diff` fenced block.
+3. A line-level separated comparison with `修改前` and `修改後` sections. Do not use `diff` fenced blocks, `+` prefixes, or `-` prefixes for code changes.
 4. Full post-change code in a `python` fenced block.
 5. Notes for imports/classes/functions that affect other blocks.
 6. Explicit TODO markers for unresolved unknowns.
@@ -109,7 +130,8 @@ If `Python Block` or `Embedded Python Block` is touched, include:
 - Every added or modified block includes verified parameter definitions.
 - Every parameter source is traceable.
 - Every connection change is explicit.
-- Python block changes include both diff and full updated code when applicable.
+- Python block changes include separated before/after code comparison and full updated code when applicable.
+- Interaction blockers were resolved, or unresolved decisions are marked as TODOs because the user requested a draft.
 - No fabricated values are introduced.
 - The output filename follows naming rules.
 
