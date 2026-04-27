@@ -31,8 +31,14 @@
 
 ### Python block 程式碼（若本 phase 修改 Python block）
 #### Block: {block_name} ({block_id})
-```python
-{完整可複製貼上的替換程式碼}
+- 原始碼來源：{.grc Embedded Python Block / 外部 Python 檔案路徑}
+
+#### 程式碼差異
+{說明此區塊修改目的}
+```diff
+@@ L{old_start},L{old_count} -> L{new_start},L{new_count} @@
+-{修改前程式碼}
++{修改後程式碼}
 ```
 
 ### 連線調整
@@ -49,6 +55,28 @@
 |---|---|
 |  |  |
 
+### Python block 程式碼（若本 phase 修改 Python block）
+#### Block: {block_name} ({block_id})
+- 原始碼來源：{.grc Embedded Python Block / 外部 Python 檔案路徑}
+- 套用方式：以「完整替換程式碼」整段取代該 block 原始碼；「程式碼差異」僅供審閱。
+
+#### 行號與變更摘要
+| 原始行號 | 新版行號 | 變更說明 |
+|---|---|---|
+| L{start}-L{end} | L{start}-L{end} | {說明此區塊修改目的} |
+
+#### 程式碼差異
+```diff
+@@ L{old_start},L{old_count} -> L{new_start},L{new_count} @@
+-{修改前程式碼}
++{修改後程式碼}
+```
+
+#### 完整替換程式碼
+```python
+{完整可複製貼上的替換程式碼}
+```
+
 ### 連線調整
 - 移除：
 - 新增：
@@ -63,6 +91,28 @@
 |---|---|
 |  |  |
 
+### Python block 程式碼（若本 phase 修改 Python block）
+#### Block: {block_name} ({block_id})
+- 原始碼來源：{.grc Embedded Python Block / 外部 Python 檔案路徑}
+- 套用方式：以「完整替換程式碼」整段取代該 block 原始碼；「程式碼差異」僅供審閱。
+
+#### 行號與變更摘要
+| 原始行號 | 新版行號 | 變更說明 |
+|---|---|---|
+| L{start}-L{end} | L{start}-L{end} | {說明此區塊修改目的} |
+
+#### 程式碼差異
+```diff
+@@ L{old_start},L{old_count} -> L{new_start},L{new_count} @@
+-{修改前程式碼}
++{修改後程式碼}
+```
+
+#### 完整替換程式碼
+```python
+{完整可複製貼上的替換程式碼}
+```
+
 ### 連線調整
 - 移除：
 - 新增：
@@ -73,6 +123,7 @@
 3. 是否存在任何猜測值
 4. 是否已列出所有新增/移除 connection
 5. 是否符合繁體中文與命名規範
+6. 若修改 Python block，是否列出行號摘要、程式碼差異與完整替換程式碼
 
 ## 阻塞與待確認
 - 項目：
